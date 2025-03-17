@@ -40,7 +40,7 @@ class sssd::rhel () inherits sssd {
             # authconfig is used for Rhel7
             $auth_select_cmd = "${authconfig_exec} ${authconfig_flags} --update"
             $auth_test_cmd   = "${authconfig_exec} ${authconfig_flags} --test"
-            $auth_check_cmd  = "/usr/bin/test \"$(${authconfig_test_cmd})\" = \"$(${authconfig_exec} --test)\""
+            $auth_check_cmd  = "/usr/bin/test \"$(${auth_test_cmd})\" = \"$(${authconfig_exec} --test)\""
         }
     }
 
