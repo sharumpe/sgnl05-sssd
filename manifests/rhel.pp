@@ -5,6 +5,15 @@ class sssd::rhel () inherits sssd {
     $authconfig_exec = '/usr/sbin/authconfig'
 
     case $::facts['os']['release']['major'] {
+        '10': {
+            # In rhel10 no parameters are required for the select command, only the option "sssd" must be specified
+            $auth_select_cmd = "${authselect_exec} select ${authselect_profile} --force"
+            $auth_check_cmd = "/usr/bin/test \"$(${authselect_exec} current --raw)\" = \"${authselect_profile} with-mkhomedir\""
+            # In rhel10, mkhomedir is used in a separate command
+            $auth_mkhomedir_cmd = "${authselect_exec} enable-feature with-mkhomedir"
+            # Flag file which is used to execute the $auth_mkhomedir_cmd
+            $auth_flag_file = "true"
+        }
         '9': {
             # In rhel9 no parameters are required for the select command, only the option "sssd" must be specified
             $auth_select_cmd = "${authselect_exec} select ${authselect_profile} --force"
